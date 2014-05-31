@@ -29,7 +29,7 @@ import java.util.Map;
 public class PopHealthConnector {
     private static HttpHost target = new HttpHost("localhost", 3000, "http");
 
-    public String getPatientMeasure(String patientId,String measureId){
+    public String getPatientMeasure(String patientId,String measureId,String userName,String password){
         ObjectMapper mapper = new ObjectMapper();
         List<Map<String,Object>> userData = null;
         Map<String,Object> patientMeasure = null;
@@ -43,7 +43,7 @@ public class PopHealthConnector {
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(
                 new AuthScope(target.getHostName(), target.getPort()),
-                new UsernamePasswordCredentials("jjdeepali", "pophealth"));
+                new UsernamePasswordCredentials(userName, password));
 
         CloseableHttpClient client = HttpClients.custom()
                 .setDefaultCredentialsProvider(credsProvider)
