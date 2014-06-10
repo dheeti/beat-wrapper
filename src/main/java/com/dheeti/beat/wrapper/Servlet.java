@@ -22,5 +22,6 @@ public class Servlet extends javax.servlet.http.HttpServlet {
         //boolean success = client.executeLoginQuery((String)request.getAttribute("userName"),(String)request.getAttribute("password"));
         request.getSession().setAttribute("userName",(String)request.getParameter("userName"));
         request.getSession().setAttribute("password",(String)request.getParameter("password"));
+        response.sendRedirect("/dashboard.jsp");
     }
 }

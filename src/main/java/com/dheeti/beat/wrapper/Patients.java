@@ -1,12 +1,13 @@
 package com.dheeti.beat.wrapper;
 
+import com.dheeti.beat.wrapper.mongodb.MongoDAO;
+
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -39,4 +40,16 @@ public class Patients {
         String popResponse =  new PopHealthConnector().getPatientMeasure(patientId,measureId,userName,password);
         return popResponse;
     }
+
+    @POST
+    @Path("/search/")
+    @Produces("application/json")
+    public ArrayList<HashMap<String,Object>> getPatientSearch(@FormParam("hqmf_id")String hqmf_id,
+                                   @FormParam("firstname") String firstName,
+                                   @FormParam("lastname") String lastName){
+        MongoDAO client = new MongoDAO();
+        ArrayList<HashMap<String,Object>> result = client.executePatientSearch(firstName, lastName);
+        return result;
+    }
+
 }
