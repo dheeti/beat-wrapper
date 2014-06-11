@@ -50,14 +50,35 @@ public class MongoDAO {
         DBCursor cursor = table.find(searchQuery);
         DBObject dbObject=null;
         ArrayList<HashMap<String,Object>> recordsList = new ArrayList<HashMap<String, Object>>();
-        if(cursor.hasNext()) {
+        while(cursor.hasNext()) {
             dbObject = cursor.next();
             HashMap<String,Object> record = new HashMap<String,Object>();
             record.put("first", dbObject.get("first"));
             record.put("last",dbObject.get("last"));
-            record.put("id",dbObject.get("_id"));
+            record.put("id",dbObject.get("_id").toString());
+            recordsList.add(record);
         }
         return recordsList;
+    }
+    public DBObject addMeasureToPatient(String measureId,String patientId){
+        DB db = this.getMongoDB();
+        DBCollection table = db.getCollection("records");
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("_id", new ObjectId(patientId));
+        DBCursor cursor = table.find(searchQuery);
+        DBObject dbObject=null;
+        while(cursor.hasNext()) {
+            dbObject = cursor.next();
+        }
+
+        if(dbObject!=null){
+            BasicDBObject match = new BasicDBObject();
+            match.put("_id",new ObjectId(patientId));
+            BasicDBObject update = new BasicDBObject();
+            update.put("$push", new BasicDBObject("measure_ids", measureId));
+            table.update(match,update);
+        }
+        return dbObject;
     }
 
     private DB getMongoDB() {
