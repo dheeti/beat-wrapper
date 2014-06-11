@@ -11,7 +11,7 @@
     <title>Patient Search</title>
 </head>
 <body>
-<form method="post" action="beat/api/patients/search">
+<form method="post" action="patients/search">
     <p><input type="text" name="firstname" value="" placeholder="FirstName"></p>
     <p><input type="text" name="lastname" value="" placeholder="LastName"></p>
     <p><input type="hidden" name="hqmf_id" value="<%= request.getParameter("measure") %>"> </p>

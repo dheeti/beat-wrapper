@@ -2,6 +2,7 @@ package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.glassfish.jersey.server.mvc.Viewable;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
@@ -23,6 +24,15 @@ import static javax.ws.rs.core.MediaType.TEXT_HTML_TYPE;
 public class Patients {
     @Context
     private HttpServletRequest request;
+    private HashMap<String,Object> model = new HashMap<>();
+
+    public HashMap<String,Object> getModel() {
+        return model;
+    }
+
+    public void setModel(HashMap<String,Object> model) {
+        this.model = model;
+    }
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -48,20 +58,22 @@ public class Patients {
 
     @POST
     @Path("/search/")
-    @Produces("application/json")
-    public String getPatientSearch(@FormParam("hqmf_id")String hqmf_id,
+    @Produces("text/html")
+    public Viewable getPatientSearch(@FormParam("hqmf_id")String hqmf_id,
                                    @FormParam("firstname") String firstName,
                                    @FormParam("lastname") String lastName){
         String result = "";
+
         try {
         MongoDAO client = new MongoDAO();
-        ArrayList<HashMap<String,Object>> patientList = client.executePatientSearch(firstName, lastName);
+            model.put("hqmf_id",hqmf_id);
+            model.put("patients",client.executePatientSearch(firstName, lastName));
         ObjectMapper mapper = new ObjectMapper();
-            result=  mapper.writeValueAsString(patientList);
+            result=  mapper.writeValueAsString(model);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return new Viewable("/matchingpatients.jsp",model);
     }
 
     @POST

@@ -11,6 +11,6 @@
     <title>Beat Dashboard</title>
 </head>
 <body>
-<a href="/admin.jsp">Admin Interface</a>
+<a href="/patientsearch.jsp">Patient Search</a>
 </body>
 </html>
