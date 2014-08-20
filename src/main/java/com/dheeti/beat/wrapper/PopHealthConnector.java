@@ -27,7 +27,11 @@ import java.util.Map;
  * Created by jayramj on 31/5/14.
  */
 public class PopHealthConnector {
-    private static HttpHost target = new HttpHost("localhost", 3000, "http");
+    private static HttpHost target = null;
+
+    public PopHealthConnector(String pophealthURL) {
+        target = new HttpHost(pophealthURL);
+    }
 
     public String getPatientMeasure(String patientId,String measureId,String userName,String password){
         ObjectMapper mapper = new ObjectMapper();

@@ -1,5 +1,6 @@
 package com.dheeti.beat.wrapper;
 
+import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.server.mvc.Viewable;
@@ -21,7 +22,7 @@ import static javax.ws.rs.core.MediaType.TEXT_HTML_TYPE;
  * Root resource (exposed at "myresource" path)
  */
 @Path("patients")
-public class Patients {
+public class Patients implements StringConstants{
     @Context
     private HttpServletRequest request;
     private HashMap<String,Object> model = new HashMap<>();
@@ -52,7 +53,7 @@ public class Patients {
     public String getPatientMeasure(@PathParam("patientId")String patientId,@PathParam("measureId")String measureId) {
         String userName = (String)request.getSession().getAttribute("userName");
         String password = (String)request.getSession().getAttribute("password");
-        String popResponse =  new PopHealthConnector().getPatientMeasure(patientId,measureId,userName,password);
+        String popResponse =  new PopHealthConnector((String)request.getServletContext().getAttribute(pophealthip)).getPatientMeasure(patientId,measureId,userName,password);
         return popResponse;
     }
 
