@@ -4,13 +4,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.dheeti</groupId>
-    <artifactId>simple-service-webapp</artifactId>
+    <artifactId>beat</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>simple-service-webapp</name>
+    <name>beat</name>
 
     <build>
-        <finalName>simple-service-webapp</finalName>
+        <finalName>beat</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
