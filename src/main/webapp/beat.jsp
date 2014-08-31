@@ -1,30 +1,32 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: jayramj
-  Date: 21/8/14
-  Time: 11:34 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>Test Layout</title>
-    <style type="text/css">
-        body, html
-        {
-            margin: 0; padding: 0; height: 100%; overflow: hidden;
-        }
-
-        #content
-        {
-            position:absolute; left: 0; right: 0; bottom: 0; top: 0px;
-        }
-    </style>
-</head>
+<html>
 <body>
-<div id="content">
-    <iframe height="100%" width="100%" frameborder="0" src="http://pophealth.beatalerts.com" />
-    </div>"
+    <!--<h2>Jersey RESTful Web Application!</h2>
+    <p><a href="webapi/patients">Jersey resource</a>
+    <p><a href="webapi/patients/1/measure/1">Patient Measure</a>
+    <p>Visit <a href="http://jersey.java.net">Project Jersey website</a>
+    for more information on Jersey!-->
+
+
+    <section class="container">
+        <div class="login">
+            <h1>Login to Beat</h1>
+            <form method="post" action="beat/SignIn">
+                <p><input type="text" name="userName" value="" placeholder="Username "></p>
+                <p><input type="password" name="password" value="" placeholder="Password"></p>
+                <p class="remember_me">
+                    <label>
+                        <input type="checkbox" name="remember_me" id="remember_me">
+                        Remember me on this computer
+                    </label>
+                </p>
+                <p class="submit"><input type="submit" name="commit" value="Login"></p>
+            </form>
+        </div>
+
+        <div class="login-help">
+            <p>Forgot your password? <a href="index.html">Click here to reset it</a>.</p>
+        </div>
+    </section>
+
 </body>
 </html>
