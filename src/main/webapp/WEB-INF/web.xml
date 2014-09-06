@@ -27,6 +27,7 @@
     <servlet>
         <servlet-name>StartupServlet</servlet-name>
         <servlet-class>com.dheeti.beat.wrapper.servlet.StartupServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
