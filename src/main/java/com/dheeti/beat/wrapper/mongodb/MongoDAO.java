@@ -1,5 +1,6 @@
 package com.dheeti.beat.wrapper.mongodb;
 
+import com.dheeti.beat.wrapper.common.StringConstants;
 import com.mongodb.*;
 import org.bson.types.ObjectId;
 
@@ -10,13 +11,13 @@ import java.util.HashMap;
 /**
  * Created by jayramj on 31/5/14.
  */
-public class MongoDAO {
+public class MongoDAO implements StringConstants{
     DB mongoDB = null;
-    public  MongoDAO(){
+    public  MongoDAO(String ip,String port,String db){
         MongoClient mongo = null;
         try {
-            mongo = new MongoClient("localhost", 27017);
-            this.mongoDB = mongo.getDB("beat-development");
+            mongo = new MongoClient(ip, new Integer(port).intValue());
+            this.mongoDB = mongo.getDB(db);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }

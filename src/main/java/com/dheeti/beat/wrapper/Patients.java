@@ -5,6 +5,7 @@ import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.server.mvc.Viewable;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -26,6 +27,9 @@ public class Patients implements StringConstants{
     @Context
     private HttpServletRequest request;
     private HashMap<String,Object> model = new HashMap<>();
+    private static String pophealthip = "pophealth.beatalerts.com";
+    private static String pophealthport = "27017";
+    private static String dbName = "pophealth-production";
 
     public HashMap<String,Object> getModel() {
         return model;
@@ -64,9 +68,11 @@ public class Patients implements StringConstants{
                                    @FormParam("firstname") String firstName,
                                    @FormParam("lastname") String lastName){
         String result = "";
+        ServletContext sc = request.getServletContext();
 
         try {
-        MongoDAO client = new MongoDAO();
+        //MongoDAO client = new MongoDAO((String)sc.getAttribute(pophealthip),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
+            MongoDAO client = new MongoDAO(pophealthip,pophealthport,dbName);
             model.put("hqmf_id",hqmf_id);
             model.put("patients",client.executePatientSearch(firstName, lastName));
         ObjectMapper mapper = new ObjectMapper();
@@ -82,7 +88,9 @@ public class Patients implements StringConstants{
     @Produces("application/json")
     public boolean addPatient(@PathParam("measureid") String measureId,
                               @PathParam("patientid") String patientId){
-        MongoDAO client = new MongoDAO();
+        ServletContext sc = request.getServletContext();
+
+        MongoDAO client = new MongoDAO((String)sc.getAttribute(pophealthip),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
         client.addMeasureToPatient(measureId,patientId);
         return false;
     }
