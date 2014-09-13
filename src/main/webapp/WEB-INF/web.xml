@@ -31,7 +31,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
-        <url-pattern>/beat/*</url-pattern>
+        <url-pattern>/beat/SignIn</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>

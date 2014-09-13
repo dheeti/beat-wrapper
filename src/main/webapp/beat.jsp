@@ -10,21 +10,24 @@
     <section class="container">
         <div class="login">
             <h1>Login to Beat</h1>
-            <form method="post" action="beat/SignIn">
-                <p><input type="text" name="userName" value="" placeholder="Username "></p>
-                <p><input type="password" name="password" value="" placeholder="Password"></p>
+            <form method="get" action="beat/SignIn">
+                <p><input type="text" name="userName" placeholder="Username "/></p>
+                <p><input type="password" name="password" placeholder="Password"/></p>
                 <p class="remember_me">
                     <label>
-                        <input type="checkbox" name="remember_me" id="remember_me">
+                        <input type="checkbox" name="remember_me" id="remember_me"/>
                         Remember me on this computer
                     </label>
                 </p>
-                <p class="submit"><input type="submit" name="commit" value="Login"></p>
+                <p class="submit"><input type="submit" name="submit" value="Login"/></p>
             </form>
         </div>
 
         <div class="login-help">
             <p>Forgot your password? <a href="index.html">Click here to reset it</a>.</p>
+        </div>
+        <div class="login-help">
+            <p>New to Beat? <a href="index.jsp?iframeSrc=http://localhost:3000/users/sign_up">Register</a>.</p>
         </div>
     </section>
 

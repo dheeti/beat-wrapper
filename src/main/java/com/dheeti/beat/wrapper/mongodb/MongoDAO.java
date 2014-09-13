@@ -25,20 +25,26 @@ public class MongoDAO implements StringConstants{
         }
 
     }
-    public boolean executeLoginQuery(String userName,String password){
+    public String executeLoginQuery(String userName,String password){
 
-        boolean success = false;
-        /*MongoClient mongo = null;
+        String encryptedPassword= null;
+        MongoClient mongo = null;
         try {
             mongo = new MongoClient( "localhost" , 27017 );
         DB db = mongo.getDB("pophealth-development");
-        DBCollection table = db.getCollection("measures");
+        DBCollection table = db.getCollection("users");
         BasicDBObject searchQuery = new BasicDBObject();
-        searchQuery.put("id", "40280381-3D61-56A7-013E-6649110743CE");
+        searchQuery.put("username", userName);
+        DBCursor cursor = table.find(searchQuery);
+        DBObject dbObject=null;
+            while(cursor.hasNext()) {
+                dbObject = cursor.next();
+                encryptedPassword = (String)dbObject.get("encrypted_password");
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
-        }*/
-        return success;
+        }
+        return encryptedPassword;
 
     }
 

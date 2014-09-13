@@ -23,8 +23,12 @@
     </style>
 </head>
 <body>
+<%
+    String frameSrc = request.getParameter("iframeSrc");
+    if(frameSrc==null) frameSrc = "http://localhost:3000";
+%>
 <div id="content">
-    <iframe height="100%" width="100%" frameborder="0" src="http://localhost:3000" />
+    <iframe height="100%" width="100%" frameborder="0" src="<%= frameSrc%>" />
 </div>
 </body>
 </html>

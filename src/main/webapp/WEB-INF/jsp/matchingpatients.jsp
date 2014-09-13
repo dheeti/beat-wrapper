@@ -8,6 +8,7 @@
 <html>
 <head>
     <title>Matching Patients</title>
+    <style type="text/css"></style>
 </head>
 <body>
 <%
