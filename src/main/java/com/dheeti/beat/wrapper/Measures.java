@@ -22,7 +22,7 @@ public class Measures implements StringConstants {
     @Path("{measureId}/patients/")
     @Produces(MediaType.TEXT_PLAIN)
     public String addPatient(@PathParam("measureId") String measureId,@FormParam("selectPatient") String patientId){
-        ServletContext sc = request.getServletContext();
+        ServletContext sc = request.getSession().getServletContext();
         MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
         client.addMeasureToPatient(measureId,patientId);
         return "Measure Added";

@@ -54,7 +54,7 @@ public class Patients implements StringConstants{
     public String getPatientMeasure(@PathParam("patientId")String patientId,@PathParam("measureId")String measureId) {
         String userName = (String)request.getSession().getAttribute("userName");
         String password = (String)request.getSession().getAttribute("password");
-        String popResponse =  new PopHealthConnector((String)request.getServletContext().getAttribute(POPHEALTH_IP_ADDRESS))
+        String popResponse =  new PopHealthConnector((String)request.getSession().getServletContext().getAttribute(POPHEALTH_IP_ADDRESS))
                 .getPatientMeasure(patientId,measureId,userName,password);
         return popResponse;
     }
@@ -66,7 +66,7 @@ public class Patients implements StringConstants{
                                    @FormParam("firstname") String firstName,
                                    @FormParam("lastname") String lastName){
         String result = "";
-        ServletContext sc = request.getServletContext();
+        ServletContext sc = request.getSession().getServletContext();
 
         try {
         MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
