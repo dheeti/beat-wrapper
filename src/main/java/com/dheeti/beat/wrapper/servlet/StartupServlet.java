@@ -32,7 +32,7 @@ public class StartupServlet extends HttpServlet implements StringConstants{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        sc.setAttribute(pophealthip,startupProperties.getProperty(pophealthip));
+        sc.setAttribute(POPHEALTH_IP_ADDRESS,startupProperties.getProperty(POPHEALTH_IP_ADDRESS));
         sc.setAttribute(bonnieip,startupProperties.getProperty(bonnieip));
         sc.setAttribute(POPHEALTH_MONGO_DB,startupProperties.getProperty(POPHEALTH_MONGO_DB));
         sc.setAttribute(POPHEALTH_MONGO_PORT,startupProperties.getProperty(POPHEALTH_MONGO_PORT));

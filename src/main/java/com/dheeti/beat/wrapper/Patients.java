@@ -27,9 +27,6 @@ public class Patients implements StringConstants{
     @Context
     private HttpServletRequest request;
     private HashMap<String,Object> model = new HashMap<>();
-    private static String pophealthip = "pophealth.beatalerts.com";
-    private static String pophealthport = "27017";
-    private static String dbName = "pophealth-production";
 
     public HashMap<String,Object> getModel() {
         return model;
@@ -57,7 +54,8 @@ public class Patients implements StringConstants{
     public String getPatientMeasure(@PathParam("patientId")String patientId,@PathParam("measureId")String measureId) {
         String userName = (String)request.getSession().getAttribute("userName");
         String password = (String)request.getSession().getAttribute("password");
-        String popResponse =  new PopHealthConnector((String)request.getServletContext().getAttribute(pophealthip)).getPatientMeasure(patientId,measureId,userName,password);
+        String popResponse =  new PopHealthConnector((String)request.getServletContext().getAttribute(POPHEALTH_IP_ADDRESS))
+                .getPatientMeasure(patientId,measureId,userName,password);
         return popResponse;
     }
 
@@ -71,8 +69,8 @@ public class Patients implements StringConstants{
         ServletContext sc = request.getServletContext();
 
         try {
-        //MongoDAO client = new MongoDAO((String)sc.getAttribute(pophealthip),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
-            MongoDAO client = new MongoDAO(pophealthip,pophealthport,dbName);
+        MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
+            //MongoDAO client = new MongoDAO(pophealthip,pophealthport,dbName);
             model.put("hqmf_id",hqmf_id);
             model.put("patients",client.executePatientSearch(firstName, lastName));
         ObjectMapper mapper = new ObjectMapper();
@@ -83,16 +81,6 @@ public class Patients implements StringConstants{
         return new Viewable("/matchingpatients.jsp",model);
     }
 
-    @POST
-    @Path("{patientid}/measure/{measureid}")
-    @Produces("application/json")
-    public boolean addPatient(@PathParam("measureid") String measureId,
-                              @PathParam("patientid") String patientId){
-        ServletContext sc = request.getServletContext();
 
-        MongoDAO client = new MongoDAO((String)sc.getAttribute(pophealthip),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
-        client.addMeasureToPatient(measureId,patientId);
-        return false;
-    }
 
 }

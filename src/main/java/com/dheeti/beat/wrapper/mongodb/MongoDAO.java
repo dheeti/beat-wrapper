@@ -15,8 +15,10 @@ public class MongoDAO implements StringConstants{
     DB mongoDB = null;
     public  MongoDAO(String ip,String port,String db){
         MongoClient mongo = null;
+        MongoClientOptions options = MongoClientOptions.builder().connectTimeout(10000)
+                .maxWaitTime(10000).build();
         try {
-            mongo = new MongoClient(ip, new Integer(port).intValue());
+            mongo = new MongoClient(ip, options);
             this.mongoDB = mongo.getDB(db);
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -51,6 +53,7 @@ public class MongoDAO implements StringConstants{
         DBCursor cursor = table.find(searchQuery);
         DBObject dbObject=null;
         ArrayList<HashMap<String,Object>> recordsList = new ArrayList<HashMap<String, Object>>();
+        cursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
         while(cursor.hasNext()) {
             dbObject = cursor.next();
             HashMap<String,Object> record = new HashMap<String,Object>();
