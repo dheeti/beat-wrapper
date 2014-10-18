@@ -2,7 +2,6 @@
   <artifact type="exploded-war" name="simple-service-webapp:war exploded">
     <output-path>$PROJECT_DIR$/target/beat</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="simple-service-webapp/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
           <element id="module-output" name="simple-service-webapp" />
@@ -36,8 +35,9 @@
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-client:2.9" />
           <element id="library" level="project" name="Maven: javax.validation:validation-api:1.1.0.Final" />
           <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.3.2" />
-          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.3.3" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.3.5" />
           <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.6" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpmime:4.3.5" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.9.13" />
           <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.9.13" />
           <element id="library" level="project" name="Maven: org.mongodb:mongo-java-driver:2.12.2" />
@@ -47,6 +47,10 @@
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
         </element>
       </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/target/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="simple-service-webapp/web/Web" />
     </root>
   </artifact>
 </component>

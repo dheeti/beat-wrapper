@@ -9,13 +9,19 @@ import org.apache.http.client.AuthCache;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.FileEntity;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.BasicAuthCache;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.*;
 
@@ -26,22 +32,25 @@ public class UploadQRDA1 {
     public static void main(String args[]) {
         UploadQRDA1 inst = new UploadQRDA1();
         HttpHost target = new HttpHost("localhost", 3000, "http");
-        String response = inst.executeMultiPartRequest(target,"sample-qrda1-patient1.xml");
+        String response = inst.executeMultiPartRequest(target,"/home/jayram/beat/testdata/QRDA1.xml");
         System.out.println("Response : "+response);
     }
 
 
     public String executeMultiPartRequest(HttpHost target, String fileName) {
 
-        HttpPost postRequest = new HttpPost (target.toURI()+"/records") ;
+        HttpPost postRequest = new HttpPost (target.toURI()+"/api/patients") ;
         File f = new File(fileName);
-        FileEntity fileEntity = new FileEntity(f) ;
-        fileEntity.setContentType("text/xml");
 
-        //FileBody fileBody = new FileBody(f, "text/xml") ;
-        //multiPartEntity.addPart("attachment", fileBody) ;
+        //FileEntity fileEntity = new FileEntity(f) ;
+        //fileEntity.setContentType("text/xml");
+        ContentType contentType = ContentType.TEXT_XML;
+        FileBody fileBody = new FileBody(f,contentType);
+        MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
+        multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+        multipartEntityBuilder.addPart("QRDA1.xml",fileBody);
 
-        postRequest.setEntity(fileEntity) ;
+        postRequest.setEntity(multipartEntityBuilder.build()) ;
 
         return executeRequest (target,postRequest) ;
     }
@@ -55,7 +64,7 @@ public class UploadQRDA1 {
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(
                 new AuthScope(target.getHostName(), target.getPort()),
-                new UsernamePasswordCredentials("jjdeepali", "pophealth"));
+                new UsernamePasswordCredentials("jjdeepali", "pophealth123"));
 
         CloseableHttpClient client = HttpClients.custom()
                 .setDefaultCredentialsProvider(credsProvider)
