@@ -37,7 +37,11 @@ public class UploadQRDA1 {
         System.out.println("Response : "+response);
     }
 
-
+    public String executeMultiPartRequest(String fileName){
+        HttpHost target = new HttpHost("localhost", 3000, "http");
+        String response = this.executeMultiPartRequest(target,fileName);
+        return response;
+    }
     public String executeMultiPartRequest(HttpHost target, String fileName) {
 
         HttpPost postRequest = new HttpPost (target.toURI()+"/api/patients") ;

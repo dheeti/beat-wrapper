@@ -10,14 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.*;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import static javax.ws.rs.core.MediaType.TEXT_HTML_TYPE;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 
 /**
  * Root resource (exposed at "myresource" path)
@@ -81,6 +79,29 @@ public class Patients implements StringConstants{
         return new Viewable("/matchingpatients.jsp",model);
     }
 
+@POST
+@Path("upload")
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+@Produces(MediaType.TEXT_PLAIN)
+public String uploadFile(
+        @FormDataParam("file") InputStream fileInputStream,
+        @FormDataParam("file") FormDataContentDisposition fileDisposition)
+        throws FileNotFoundException, IOException {
+
+    String fileName = fileDisposition.getFileName();
+    System.out.println("***** fileName " + fileDisposition.getFileName());
+    String filePath = "upload.xml";
+    try (OutputStream fileOutputStream = new FileOutputStream(filePath)) {
+        int read = 0;
+        final byte[] bytes = new byte[1024];
+        while ((read = fileInputStream.read(bytes)) != -1) {
+            fileOutputStream.write(bytes, 0, read);
+        }
+    }
+
+    UploadQRDA1 upload = new UploadQRDA1();
+    return upload.executeMultiPartRequest(filePath);
+}
 
 
 }
