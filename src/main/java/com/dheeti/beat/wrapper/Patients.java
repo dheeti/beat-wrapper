@@ -68,7 +68,6 @@ public class Patients implements StringConstants{
 
         try {
         MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
-            //MongoDAO client = new MongoDAO(pophealthip,pophealthport,dbName);
             model.put("hqmf_id",hqmf_id);
             model.put("patients",client.executePatientSearch(firstName, lastName));
         ObjectMapper mapper = new ObjectMapper();
@@ -99,7 +98,7 @@ public String uploadFile(
         }
     }
 
-    UploadQRDA1 upload = new UploadQRDA1();
+    UploadQRDA1 upload = new UploadQRDA1((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue());
     return upload.executeMultiPartRequest(filePath);
 }
 

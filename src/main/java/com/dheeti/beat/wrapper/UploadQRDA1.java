@@ -30,15 +30,24 @@ import java.nio.charset.Charset;
  * Created by jayramj on 4/5/14.
  */
 public class UploadQRDA1 {
+
+    private String ipAddress = null;
+    private int port;
+
+    public UploadQRDA1(String ipAddress, int port) {
+        this.ipAddress = ipAddress;
+        this.port = port;
+    }
+
     public static void main(String args[]) {
-        UploadQRDA1 inst = new UploadQRDA1();
-        HttpHost target = new HttpHost("localhost", 3000, "http");
+        UploadQRDA1 inst = new UploadQRDA1("localhost",3000);
+        HttpHost target = new HttpHost(inst.ipAddress,inst.port, "http");
         String response = inst.executeMultiPartRequest(target,"/home/jayram/beat/testdata/QRDA_Category1_Davis_Ruby.xml");
         System.out.println("Response : "+response);
     }
 
     public String executeMultiPartRequest(String fileName){
-        HttpHost target = new HttpHost("localhost", 3000, "http");
+        HttpHost target = new HttpHost(this.ipAddress,this.port, "http");
         String response = this.executeMultiPartRequest(target,fileName);
         return response;
     }

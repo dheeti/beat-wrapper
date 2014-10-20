@@ -33,9 +33,10 @@ public class StartupServlet extends HttpServlet implements StringConstants{
             e.printStackTrace();
         }
         sc.setAttribute(POPHEALTH_IP_ADDRESS,startupProperties.getProperty(POPHEALTH_IP_ADDRESS));
-        sc.setAttribute(bonnieip,startupProperties.getProperty(bonnieip));
+        sc.setAttribute(BONNIE_IP_ADDRESS,startupProperties.getProperty(BONNIE_IP_ADDRESS));
         sc.setAttribute(POPHEALTH_MONGO_DB,startupProperties.getProperty(POPHEALTH_MONGO_DB));
         sc.setAttribute(POPHEALTH_MONGO_PORT,startupProperties.getProperty(POPHEALTH_MONGO_PORT));
+        sc.setAttribute(POPHEALTH_PORT,startupProperties.getProperty(POPHEALTH_PORT));
 
     }
 }
