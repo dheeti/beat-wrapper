@@ -24,6 +24,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.entity.mime.content.FileBody;
 
 import java.io.*;
+import java.nio.charset.Charset;
 
 /**
  * Created by jayramj on 4/5/14.
@@ -32,7 +33,7 @@ public class UploadQRDA1 {
     public static void main(String args[]) {
         UploadQRDA1 inst = new UploadQRDA1();
         HttpHost target = new HttpHost("localhost", 3000, "http");
-        String response = inst.executeMultiPartRequest(target,"/home/jayram/beat/testdata/QRDA1.xml");
+        String response = inst.executeMultiPartRequest(target,"/home/jayram/beat/testdata/QRDA_Category1_Davis_Ruby.xml");
         System.out.println("Response : "+response);
     }
 
@@ -44,11 +45,12 @@ public class UploadQRDA1 {
 
         //FileEntity fileEntity = new FileEntity(f) ;
         //fileEntity.setContentType("text/xml");
-        ContentType contentType = ContentType.TEXT_XML;
+        ContentType contentType = ContentType.MULTIPART_FORM_DATA;
         FileBody fileBody = new FileBody(f,contentType);
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-        multipartEntityBuilder.addPart("QRDA1.xml",fileBody);
+        multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
+        multipartEntityBuilder.addPart("file",fileBody);
 
         postRequest.setEntity(multipartEntityBuilder.build()) ;
 
