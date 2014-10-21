@@ -11,6 +11,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
+import java.nio.file.FileSystems;
 import java.util.HashMap;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -86,11 +87,16 @@ public String uploadFile(
         @FormDataParam("file") InputStream fileInputStream,
         @FormDataParam("file") FormDataContentDisposition fileDisposition)
         throws FileNotFoundException, IOException {
-
+    ServletContext sc = request.getSession().getServletContext();
     String fileName = fileDisposition.getFileName();
     System.out.println("***** fileName " + fileDisposition.getFileName());
-    String filePath = "upload.xml";
-    try (OutputStream fileOutputStream = new FileOutputStream(filePath)) {
+
+    File file = new File(sc.getRealPath(File.separator)+"upload.xml");
+
+    System.out.println("***** filepath " + FileSystems.getDefault().getPath(
+            file.getAbsolutePath()));
+
+    try (OutputStream fileOutputStream = new FileOutputStream(file)) {
         int read = 0;
         final byte[] bytes = new byte[1024];
         while ((read = fileInputStream.read(bytes)) != -1) {
@@ -99,7 +105,9 @@ public String uploadFile(
     }
 
     UploadQRDA1 upload = new UploadQRDA1((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue());
-    return upload.executeMultiPartRequest(filePath);
+    String response = upload.executeMultiPartRequest(file);
+    file.delete();
+    return response;
 }
 
 

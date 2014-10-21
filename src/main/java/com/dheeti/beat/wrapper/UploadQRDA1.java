@@ -39,27 +39,27 @@ public class UploadQRDA1 {
         this.port = port;
     }
 
-    public static void main(String args[]) {
+    /*public static void main(String args[]) {
         UploadQRDA1 inst = new UploadQRDA1("localhost",3000);
         HttpHost target = new HttpHost(inst.ipAddress,inst.port, "http");
         String response = inst.executeMultiPartRequest(target,"/home/jayram/beat/testdata/QRDA_Category1_Davis_Ruby.xml");
         System.out.println("Response : "+response);
-    }
+    }*/
 
-    public String executeMultiPartRequest(String fileName){
+    public String executeMultiPartRequest(File file){
         HttpHost target = new HttpHost(this.ipAddress,this.port, "http");
-        String response = this.executeMultiPartRequest(target,fileName);
+        String response = this.executeMultiPartRequest(target,file);
         return response;
     }
-    public String executeMultiPartRequest(HttpHost target, String fileName) {
+    public String executeMultiPartRequest(HttpHost target, File file) {
 
         HttpPost postRequest = new HttpPost (target.toURI()+"/api/patients") ;
-        File f = new File(fileName);
+        //File f = new File(fileName);
 
         //FileEntity fileEntity = new FileEntity(f) ;
         //fileEntity.setContentType("text/xml");
         ContentType contentType = ContentType.MULTIPART_FORM_DATA;
-        FileBody fileBody = new FileBody(f,contentType);
+        FileBody fileBody = new FileBody(file,contentType);
         MultipartEntityBuilder multipartEntityBuilder = MultipartEntityBuilder.create();
         multipartEntityBuilder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         multipartEntityBuilder.setCharset(Charset.forName("UTF-8"));
