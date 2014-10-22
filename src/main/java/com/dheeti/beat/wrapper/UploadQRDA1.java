@@ -33,10 +33,14 @@ public class UploadQRDA1 {
 
     private String ipAddress = null;
     private int port;
+    private String userName = null;
+    private String password = null;
 
-    public UploadQRDA1(String ipAddress, int port) {
+    public UploadQRDA1(String ipAddress, int port,String userName,String password) {
         this.ipAddress = ipAddress;
         this.port = port;
+        this.userName = userName;
+        this.password = password;
     }
 
     /*public static void main(String args[]) {
@@ -67,10 +71,10 @@ public class UploadQRDA1 {
 
         postRequest.setEntity(multipartEntityBuilder.build()) ;
 
-        return executeRequest (target,postRequest) ;
+        return this.executeRequest (target,postRequest) ;
     }
 
-    private static String executeRequest(HttpHost target,HttpPost requestBase){
+    private  String executeRequest(HttpHost target,HttpPost requestBase){
 
         String responseString = "" ;
 
@@ -79,7 +83,7 @@ public class UploadQRDA1 {
         CredentialsProvider credsProvider = new BasicCredentialsProvider();
         credsProvider.setCredentials(
                 new AuthScope(target.getHostName(), target.getPort()),
-                new UsernamePasswordCredentials("jjdeepali", "pophealth123"));
+                new UsernamePasswordCredentials(userName, password));
 
         CloseableHttpClient client = HttpClients.custom()
                 .setDefaultCredentialsProvider(credsProvider)

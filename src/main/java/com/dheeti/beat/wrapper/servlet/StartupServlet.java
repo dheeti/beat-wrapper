@@ -37,6 +37,8 @@ public class StartupServlet extends HttpServlet implements StringConstants{
         sc.setAttribute(POPHEALTH_MONGO_DB,startupProperties.getProperty(POPHEALTH_MONGO_DB));
         sc.setAttribute(POPHEALTH_MONGO_PORT,startupProperties.getProperty(POPHEALTH_MONGO_PORT));
         sc.setAttribute(POPHEALTH_PORT,startupProperties.getProperty(POPHEALTH_PORT));
+        sc.setAttribute(POPHEALTH_PATIENTUPLOAD_UID,startupProperties.getProperty(POPHEALTH_PATIENTUPLOAD_UID));
+        sc.setAttribute(POPHEALTH_PATIENTUPLOAD_PWD,startupProperties.getProperty(POPHEALTH_PATIENTUPLOAD_PWD));
 
     }
 }

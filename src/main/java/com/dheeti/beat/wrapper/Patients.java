@@ -104,7 +104,10 @@ public String uploadFile(
         }
     }
 
-    UploadQRDA1 upload = new UploadQRDA1((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue());
+    UploadQRDA1 upload = new UploadQRDA1((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
+            new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
+            (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
+            (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
     String response = upload.executeMultiPartRequest(file);
     file.delete();
     return response;

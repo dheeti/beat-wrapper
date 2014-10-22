@@ -10,4 +10,6 @@ public interface StringConstants {
     public static final String POPHEALTH_MONGO_PORT = "POPHEALTH_MONGO_PORT";
     public static final String POPHEALTH_PORT = "POPHEALTH_PORT";
     public static final String POPHEALTH_MONGO_DB = "POPHEALTH_MONGO_DB";
+    public static final String POPHEALTH_PATIENTUPLOAD_UID = "POPHEALTH_PATIENTUPLOAD_UID";
+    public static final String POPHEALTH_PATIENTUPLOAD_PWD = "POPHEALTH_PATIENTUPLOAD_PWD";
 }
