@@ -12,4 +12,5 @@ public interface StringConstants {
     public static final String POPHEALTH_MONGO_DB = "POPHEALTH_MONGO_DB";
     public static final String POPHEALTH_PATIENTUPLOAD_UID = "POPHEALTH_PATIENTUPLOAD_UID";
     public static final String POPHEALTH_PATIENTUPLOAD_PWD = "POPHEALTH_PATIENTUPLOAD_PWD";
+    public static final String QRDA_BASE_DIR = "QRDA_BASE_DIR";
 }

@@ -80,17 +80,16 @@ public class Patients implements StringConstants{
     }
 
 @POST
-@Path("upload")
+@Path("uploadHTTP")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
 @Produces(MediaType.TEXT_PLAIN)
-public String uploadFile(
+public String uploadHTTP(
         @FormDataParam("file") InputStream fileInputStream,
         @FormDataParam("file") FormDataContentDisposition fileDisposition)
         throws FileNotFoundException, IOException {
     ServletContext sc = request.getSession().getServletContext();
     String fileName = fileDisposition.getFileName();
     System.out.println("***** fileName " + fileDisposition.getFileName());
-
     File file = new File(sc.getRealPath(File.separator)+"upload.xml");
 
     System.out.println("***** filepath " + FileSystems.getDefault().getPath(
@@ -102,16 +101,37 @@ public String uploadFile(
         while ((read = fileInputStream.read(bytes)) != -1) {
             fileOutputStream.write(bytes, 0, read);
         }
+        fileOutputStream.close();
     }
 
-    UploadQRDA1 upload = new UploadQRDA1((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
-            new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
-            (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
-            (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
-    String response = upload.executeMultiPartRequest(file);
-    file.delete();
-    return response;
+    return uploadPatientData(file,sc);
 }
 
+    @POST
+    @Path("uploadFTP")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String uploadFTP(
+            @FormParam("subdir") String subdir,
+            @FormParam("filename") String filename)
+            throws FileNotFoundException, IOException {
+        ServletContext sc = request.getSession().getServletContext();
+        String baseDir = (String)sc.getAttribute(QRDA_BASE_DIR);
+        if (!(subdir==null || subdir.equals("null") || subdir.equals("")))
+            baseDir = baseDir+subdir;
+        File file = new File(baseDir+filename);
+        return uploadPatientData(file,sc);
+    }
+
+    private String uploadPatientData(File file, ServletContext sc) throws IOException {
+
+
+        UploadQRDA1 upload = new UploadQRDA1((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
+                new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
+        String response = upload.executeMultiPartRequest(file);
+        file.delete();
+        return response;
+    }
 
 }
