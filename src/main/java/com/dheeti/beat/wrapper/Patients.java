@@ -117,7 +117,7 @@ public String uploadHTTP(
         ServletContext sc = request.getSession().getServletContext();
         String baseDir = (String)sc.getAttribute(QRDA_BASE_DIR);
         if (!(subdir==null || subdir.equals("null") || subdir.equals("")))
-            baseDir = baseDir+subdir;
+            baseDir = baseDir+subdir+"/";
         File file = new File(baseDir+filename);
         return uploadPatientData(file,sc);
     }
