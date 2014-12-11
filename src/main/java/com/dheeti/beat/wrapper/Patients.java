@@ -2,6 +2,7 @@ package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
+import com.mongodb.DBObject;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.server.mvc.Viewable;
 
@@ -132,6 +133,24 @@ public String uploadHTTP(
         String response = upload.executeMultiPartRequest(file);
         file.delete();
         return response;
+    }
+
+    @POST
+    @Path("{patientId}/mrn/{mrn}")
+    @Produces("application/json")
+    public String addMRNToPatient(@PathParam("patientId")String patientId,
+                                    @PathParam("mrn")String mrn){
+        String result = "";
+        ServletContext sc = request.getSession().getServletContext();
+
+            MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            result=  mapper.writeValueAsString(client.addMRNToPatient(patientId,mrn));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }
