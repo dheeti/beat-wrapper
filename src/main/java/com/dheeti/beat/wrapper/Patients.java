@@ -153,4 +153,20 @@ public String uploadHTTP(
         return result;
     }
 
+    @GET
+    @Path("{patientId}")
+    @Produces("application/json")
+    public String getPatientByPatientId(@PathParam("patientId")String patientId){
+        String result = "";
+        ServletContext sc = request.getSession().getServletContext();
+
+        MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            result=  mapper.writeValueAsString(client.getPatientByPatientId(patientId));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 }

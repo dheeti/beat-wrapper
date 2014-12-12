@@ -110,7 +110,23 @@ public class MongoDAO implements StringConstants{
         }
         return dbObject;
     }
+    public DBObject getPatientByPatientId(String patientId) {
+        DBObject dbObject = null;
+        DB db = this.getMongoDB();
+        DBCollection table = db.getCollection("records");
+        BasicDBObject searchQuery = new BasicDBObject();
+        searchQuery.put("_id", new ObjectId(patientId));
+        DBCursor cursor = table.find(searchQuery);
+
+        while(cursor.hasNext()) {
+            dbObject = cursor.next();
+        }
+        return dbObject;
+
+    }
     private DB getMongoDB() {
         return mongoDB;
     }
+
+
 }
