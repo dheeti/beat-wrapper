@@ -14,9 +14,9 @@ import java.io.IOException;
 /**
  * Created by jayramj on 31/5/14.
  */
-public class Servlet extends javax.servlet.http.HttpServlet implements StringConstants{
+public class SignInServlet extends javax.servlet.http.HttpServlet implements StringConstants{
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("************Inside Sign In Servlet");
+        System.out.println("************Inside Sign In SignInServlet");
         ServletContext sc = request.getSession().getServletContext();
         MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
         String  encryptedPassword = client.executeLoginQuery((String)request.getParameter("userName"),(String)request.getParameter("password"));
