@@ -54,8 +54,7 @@ public class Patients implements StringConstants{
     public String getPatientMeasure(@PathParam("patientId")String patientId,@PathParam("measureId")String measureId) {
         String userName = (String)request.getSession().getAttribute("userName");
         String password = (String)request.getSession().getAttribute("password");
-        String popResponse =  new PopHealthConnector((String)request.getSession().getServletContext().getAttribute(POPHEALTH_IP_ADDRESS))
-                .getPatientMeasure(patientId,measureId,userName,password);
+        String popResponse =  new PopHealthConnector((String)request.getSession().getServletContext().getAttribute(POPHEALTH_IP_ADDRESS)).getPatientMeasure(patientId,measureId,userName,password);
         return popResponse;
     }
 
@@ -112,8 +111,8 @@ public String uploadHTTP(
     @Path("uploadFTP")
     @Produces(MediaType.TEXT_PLAIN)
     public String uploadFTP(
-            @FormParam("subdir") String subdir,
-            @FormParam("filename") String filename)
+            @QueryParam("subdir") String subdir,
+            @QueryParam("filename") String filename)
             throws FileNotFoundException, IOException {
         ServletContext sc = request.getSession().getServletContext();
         String baseDir = (String)sc.getAttribute(QRDA_BASE_DIR);
