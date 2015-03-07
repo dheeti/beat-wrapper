@@ -53,9 +53,9 @@ public class MongoDAO implements StringConstants{
         DBCollection table = db.getCollection("records");
         BasicDBObject searchQuery = new BasicDBObject();
         if(!firstName.isEmpty())
-            searchQuery.put("first",firstName);
+            searchQuery.put("first",new BasicDBObject("$regex",firstName));
         if(!lastName.isEmpty())
-            searchQuery.put("last",lastName);
+            searchQuery.put("last",new BasicDBObject("$regex",lastName));
         DBCursor cursor = table.find(searchQuery);
         DBObject dbObject=null;
         ArrayList<HashMap<String,Object>> recordsList = new ArrayList<HashMap<String, Object>>();
