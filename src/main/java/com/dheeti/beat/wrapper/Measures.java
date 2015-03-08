@@ -47,4 +47,19 @@ public class Measures implements StringConstants {
                 return measureJSON;
     }
 
+    @GET
+    @Path("/")
+    @Produces("application/json")
+    public String getMeasures(){
+        ServletContext sc = request.getSession().getServletContext();
+        HttpHost target = new HttpHost(((String)sc.getAttribute(POPHEALTH_IP_ADDRESS)),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(), "http");
+        String measureJSON = null;
+        String apiURL = POPHEALTH_API_GET_MEASURE;
+        APIRequestHelper apiRequestHelper = new APIRequestHelper((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
+                new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
+        measureJSON = apiRequestHelper.executeRequest(target,apiURL);
+        return measureJSON;
+    }
 }
