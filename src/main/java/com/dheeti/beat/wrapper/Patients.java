@@ -2,6 +2,7 @@ package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.helper.APIRequestHelper;
+import com.dheeti.beat.wrapper.helper.JsonHashMapHelper;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import com.mongodb.DBObject;
 import org.apache.http.HttpHost;
@@ -142,8 +143,8 @@ public String uploadHTTP(
 
     @GET
     @Path("/{patientId}")
-    @Produces("application/json")
-    public String getPatientByPatientId(@PathParam("patientId")String patientId){
+    @Produces("text/html")
+    public Viewable getPatientByPatientId(@PathParam("patientId")String patientId){
         String patientJSON = null;
 
         ServletContext sc = request.getSession().getServletContext();
@@ -155,6 +156,7 @@ public String uploadHTTP(
                 (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
                 (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
         patientJSON = apiRequestHelper.executeRequest(target,apiURL);
-        return patientJSON;
+        HashMap<String,Object> patientMap = JsonHashMapHelper.jsonToHashMap(patientJSON);
+        return new Viewable("/patient.ftl", patientMap);
     }
 }

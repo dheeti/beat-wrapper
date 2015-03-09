@@ -2,6 +2,7 @@ package com.dheeti.beat.wrapper;
 
 import org.glassfish.jersey.filter.LoggingFilter;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.server.mvc.freemarker.FreemarkerMvcFeature;
 import org.glassfish.jersey.server.mvc.jsp.JspMvcFeature;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
@@ -17,6 +18,7 @@ public class MyApplication extends ResourceConfig {
         register(MultiPartFeature.class);
         //register(MultiPartResource.class);
         register(LoggingFilter.class);
+        register(FreemarkerMvcFeature.class);
     }
 
 }
