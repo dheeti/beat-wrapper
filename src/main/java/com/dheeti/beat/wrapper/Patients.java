@@ -1,8 +1,10 @@
 package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
+import com.dheeti.beat.wrapper.helper.APIRequestHelper;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import com.mongodb.DBObject;
+import org.apache.http.HttpHost;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.server.mvc.Viewable;
 
@@ -19,13 +21,11 @@ import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
 
-/**
- * Root resource (exposed at "myresource" path)
- */
 @Path("patients")
 public class Patients implements StringConstants{
     @Context
     private HttpServletRequest request;
+
     private HashMap<String,Object> model = new HashMap<>();
 
     public HashMap<String,Object> getModel() {
@@ -34,18 +34,6 @@ public class Patients implements StringConstants{
 
     public void setModel(HashMap<String,Object> model) {
         this.model = model;
-    }
-
-    /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
-     */
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    public String getIt() {
-        return "Got it!";
     }
 
     @GET
@@ -153,19 +141,20 @@ public String uploadHTTP(
     }
 
     @GET
-    @Path("{patientId}")
+    @Path("/{patientId}")
     @Produces("application/json")
     public String getPatientByPatientId(@PathParam("patientId")String patientId){
-        String result = "";
-        ServletContext sc = request.getSession().getServletContext();
+        String patientJSON = null;
 
-        MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            result=  mapper.writeValueAsString(client.getPatientByPatientId(patientId));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
+        ServletContext sc = request.getSession().getServletContext();
+        HttpHost target = new HttpHost(((String)sc.getAttribute(POPHEALTH_IP_ADDRESS)),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(), "http");
+
+        String apiURL = POPHEALTH_API_GET_PATIENT + patientId;
+        APIRequestHelper apiRequestHelper = new APIRequestHelper((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
+                new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
+        patientJSON = apiRequestHelper.executeRequest(target,apiURL);
+        return patientJSON;
     }
 }

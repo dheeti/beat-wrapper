@@ -15,4 +15,5 @@ public interface StringConstants {
     public static final String QRDA_BASE_DIR = "QRDA_BASE_DIR";
 
     public static final String POPHEALTH_API_GET_MEASURE = "/api/measures/";
+    public static final String POPHEALTH_API_GET_PATIENT = "/api/patients/";
 }

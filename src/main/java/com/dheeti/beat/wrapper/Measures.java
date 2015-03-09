@@ -12,10 +12,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-/**
- * Created by jayramj on 7/9/14.
- */
-
 @Path("measures")
 public class Measures implements StringConstants {
     @Context
