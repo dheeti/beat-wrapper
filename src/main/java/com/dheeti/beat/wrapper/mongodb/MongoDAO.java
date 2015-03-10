@@ -48,7 +48,7 @@ public class MongoDAO implements StringConstants{
 
     }
 
-    public ArrayList<HashMap<String,Object>> executePatientSearch(String firstName, String lastName) {
+    public HashMap<String,HashMap<String,Object>> executePatientSearch(String firstName, String lastName) {
         DB db = this.getMongoDB();
         DBCollection table = db.getCollection("records");
         BasicDBObject searchQuery = new BasicDBObject();
@@ -58,7 +58,8 @@ public class MongoDAO implements StringConstants{
             searchQuery.put("last",new BasicDBObject("$regex",lastName));
         DBCursor cursor = table.find(searchQuery);
         DBObject dbObject=null;
-        ArrayList<HashMap<String,Object>> recordsList = new ArrayList<HashMap<String, Object>>();
+        HashMap<String,HashMap<String,Object>> patientMap = new HashMap<String,HashMap<String,Object>>();
+        //ArrayList<HashMap<String,Object>> recordsList = new ArrayList<HashMap<String, Object>>();
         cursor.addOption(Bytes.QUERYOPTION_NOTIMEOUT);
         while(cursor.hasNext()) {
             dbObject = cursor.next();
@@ -66,9 +67,9 @@ public class MongoDAO implements StringConstants{
             record.put("first", dbObject.get("first"));
             record.put("last",dbObject.get("last"));
             record.put("id",dbObject.get("_id").toString());
-            recordsList.add(record);
+            patientMap.put(dbObject.get("_id").toString(),record);
         }
-        return recordsList;
+        return patientMap;
     }
     public DBObject addMeasureToPatient(String measureId,String patientId){
         DB db = this.getMongoDB();

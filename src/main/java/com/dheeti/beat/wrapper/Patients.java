@@ -53,19 +53,11 @@ public class Patients implements StringConstants{
     public Viewable getPatientSearch(@FormParam("hqmf_id")String hqmf_id,
                                    @FormParam("firstname") String firstName,
                                    @FormParam("lastname") String lastName){
-        String result = "";
         ServletContext sc = request.getSession().getServletContext();
-
-        try {
         MongoDAO client = new MongoDAO((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),(String)sc.getAttribute(POPHEALTH_MONGO_PORT),(String)sc.getAttribute(POPHEALTH_MONGO_DB));
-            model.put("hqmf_id",hqmf_id);
-            model.put("patients",client.executePatientSearch(firstName, lastName));
-        ObjectMapper mapper = new ObjectMapper();
-            result=  mapper.writeValueAsString(model);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return new Viewable("/matchingpatients.jsp",model);
+        HashMap<String,HashMap<String,Object>> wrapper  = client.executePatientSearch(firstName, lastName);
+
+        return new Viewable("/patientlist.ftl",wrapper);
     }
 
 @POST
