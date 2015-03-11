@@ -2,6 +2,7 @@ package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.helper.APIRequestHelper;
+import com.dheeti.beat.wrapper.helper.MeasureHelper;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.http.HttpHost;
@@ -49,13 +50,7 @@ public class Measures implements StringConstants {
     public String getMeasures(){
         ServletContext sc = request.getSession().getServletContext();
         HttpHost target = new HttpHost(((String)sc.getAttribute(POPHEALTH_IP_ADDRESS)),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(), "http");
-        String measureJSON = null;
-        String apiURL = POPHEALTH_API_GET_MEASURE;
-        APIRequestHelper apiRequestHelper = new APIRequestHelper((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
-                new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
-                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
-                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
-        measureJSON = apiRequestHelper.executeRequest(target,apiURL);
+        String measureJSON = MeasureHelper.getMeasures(sc,target);
         return measureJSON;
     }
 }

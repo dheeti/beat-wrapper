@@ -4,8 +4,9 @@
     <style type="text/css"></style>
 </head>
 <body>
+
+<form id = "form-id" method="post" action="patients">
 <table>
-    <th>Select</th>
     <th>First Name</th>
     <th>Last Name</th>
 
@@ -13,11 +14,11 @@
 <#list .data_model?keys as key>
 <#assign patientMap = .data_model[key]>
     <TR>
-        <TD><p><input type="radio" name="selectPatient" value=${key}></p></TD>
         <TD>${patientMap.first}
         </TD>
         <TD>${patientMap.last}
         </TD>
+        <TD><a href="${key}/measures"> Run Measures</a> </TD>
     </TR>
 </#list>
 </table>

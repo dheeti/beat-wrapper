@@ -3,6 +3,7 @@ package com.dheeti.beat.wrapper;
 import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.helper.APIRequestHelper;
 import com.dheeti.beat.wrapper.helper.JsonHashMapHelper;
+import com.dheeti.beat.wrapper.helper.MeasureHelper;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
 import com.mongodb.DBObject;
 import org.apache.http.HttpHost;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import java.io.*;
 import java.nio.file.FileSystems;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -150,5 +152,19 @@ public String uploadHTTP(
         patientJSON = apiRequestHelper.executeRequest(target,apiURL);
         HashMap<String,Object> patientMap = JsonHashMapHelper.jsonToHashMap(patientJSON);
         return new Viewable("/patient.ftl", patientMap);
+    }
+
+    @GET
+    @Path("{patientId}/measures/")
+    @Produces("text/html")
+    public Viewable getPatientMeasures(@PathParam("patientId") String patientId){
+        ServletContext sc = request.getSession().getServletContext();
+        HttpHost target = new HttpHost(((String)sc.getAttribute(POPHEALTH_IP_ADDRESS)),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(), "http");
+        String measureJSON = MeasureHelper.getMeasures(sc, target);
+        ArrayList<HashMap<String,Object>> measureListMap = JsonHashMapHelper.jsonToListMap(measureJSON);
+        HashMap<String,Object> model= new HashMap<String,Object>();
+        model.put("patientId",patientId);
+        model.put("measures",measureListMap);
+        return new Viewable("/patientmeasures.ftl",model);
     }
 }
