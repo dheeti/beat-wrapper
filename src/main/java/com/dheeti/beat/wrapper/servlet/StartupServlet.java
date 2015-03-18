@@ -2,6 +2,10 @@ package com.dheeti.beat.wrapper.servlet;
 
 
 import com.dheeti.beat.wrapper.common.StringConstants;
+import com.dheeti.beat.wrapper.persistence.Configuration;
+import com.dheeti.beat.wrapper.persistence.DAO.ConfigurationDAO;
+import com.dheeti.beat.wrapper.persistence.HibernateUtil;
+import org.hibernate.Session;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -9,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Properties;
+
 
 /**
  * Created by jayramj on 20/8/14.
@@ -26,21 +32,10 @@ public class StartupServlet extends HttpServlet implements StringConstants{
 
     public void init()throws ServletException {
         ServletContext sc = getServletContext();
-        Properties startupProperties = new Properties();
-        try {
-            startupProperties.load(sc.getResourceAsStream(WEB_INF_STARTUP_PROPERTIES));
-        } catch (IOException e) {
-            e.printStackTrace();
+        ConfigurationDAO configurationDAO = new ConfigurationDAO();
+        List<Configuration> configurationList = configurationDAO.getConfigurations();
+        for(Configuration conf : configurationList){
+            sc.setAttribute(conf.getKey(),conf.getValue());
         }
-        sc.setAttribute(POPHEALTH_IP_ADDRESS,startupProperties.getProperty(POPHEALTH_IP_ADDRESS));
-        sc.setAttribute(BONNIE_IP_ADDRESS,startupProperties.getProperty(BONNIE_IP_ADDRESS));
-        sc.setAttribute(POPHEALTH_MONGO_DB,startupProperties.getProperty(POPHEALTH_MONGO_DB));
-        sc.setAttribute(POPHEALTH_MONGO_PORT,startupProperties.getProperty(POPHEALTH_MONGO_PORT));
-        sc.setAttribute(POPHEALTH_PORT,startupProperties.getProperty(POPHEALTH_PORT));
-        sc.setAttribute(POPHEALTH_PATIENTUPLOAD_UID,startupProperties.getProperty(POPHEALTH_PATIENTUPLOAD_UID));
-        sc.setAttribute(POPHEALTH_PATIENTUPLOAD_PWD,startupProperties.getProperty(POPHEALTH_PATIENTUPLOAD_PWD));
-        sc.setAttribute(QRDA_BASE_DIR,startupProperties.getProperty(QRDA_BASE_DIR));
-
-
     }
 }

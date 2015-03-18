@@ -1,5 +1,6 @@
-package com.dheeti.beat.wrapper.helper;
+package com.dheeti.beat.wrapper.apiaccess;
 
+import com.dheeti.beat.wrapper.apiaccess.APIRequestHelper;
 import com.dheeti.beat.wrapper.common.StringConstants;
 import org.apache.http.HttpHost;
 
@@ -19,4 +20,17 @@ public class MeasureHelper implements StringConstants {
         measureJSON = apiRequestHelper.executeRequest(target,apiURL);
         return measureJSON;
     }
+
+
+    public static String getMeasure(ServletContext sc, HttpHost target,String measureId) {
+        String measureJSON = null;
+        String apiURL = POPHEALTH_API_GET_MEASURE+measureId;
+        APIRequestHelper apiRequestHelper = new APIRequestHelper((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
+                new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
+                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
+        measureJSON = apiRequestHelper.executeRequest(target,apiURL);
+        return measureJSON;
+    }
+
 }

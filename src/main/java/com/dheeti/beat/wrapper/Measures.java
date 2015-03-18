@@ -1,10 +1,9 @@
 package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
-import com.dheeti.beat.wrapper.helper.APIRequestHelper;
-import com.dheeti.beat.wrapper.helper.MeasureHelper;
+import com.dheeti.beat.wrapper.apiaccess.APIRequestHelper;
+import com.dheeti.beat.wrapper.apiaccess.MeasureHelper;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.apache.http.HttpHost;
 
 import javax.servlet.ServletContext;

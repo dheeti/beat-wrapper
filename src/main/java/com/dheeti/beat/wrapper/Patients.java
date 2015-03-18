@@ -1,11 +1,12 @@
 package com.dheeti.beat.wrapper;
 
+import com.dheeti.beat.wrapper.apiaccess.PatientHelper;
 import com.dheeti.beat.wrapper.common.StringConstants;
-import com.dheeti.beat.wrapper.helper.APIRequestHelper;
+import com.dheeti.beat.wrapper.apiaccess.APIRequestHelper;
 import com.dheeti.beat.wrapper.helper.JsonHashMapHelper;
-import com.dheeti.beat.wrapper.helper.MeasureHelper;
+import com.dheeti.beat.wrapper.apiaccess.MeasureHelper;
+import com.dheeti.beat.wrapper.helper.PatientMeasureMatchHelper;
 import com.dheeti.beat.wrapper.mongodb.MongoDAO;
-import com.mongodb.DBObject;
 import org.apache.http.HttpHost;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.glassfish.jersey.server.mvc.Viewable;
@@ -138,18 +139,13 @@ public String uploadHTTP(
     @GET
     @Path("/{patientId}")
     @Produces("text/html")
-    public Viewable getPatientByPatientId(@PathParam("patientId")String patientId){
+    public Viewable getPatient(@PathParam("patientId")String patientId){
         String patientJSON = null;
 
         ServletContext sc = request.getSession().getServletContext();
         HttpHost target = new HttpHost(((String)sc.getAttribute(POPHEALTH_IP_ADDRESS)),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(), "http");
 
-        String apiURL = POPHEALTH_API_GET_PATIENT + patientId;
-        APIRequestHelper apiRequestHelper = new APIRequestHelper((String)sc.getAttribute(POPHEALTH_IP_ADDRESS),
-                new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(),
-                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_UID),
-                (String)sc.getAttribute(POPHEALTH_PATIENTUPLOAD_PWD));
-        patientJSON = apiRequestHelper.executeRequest(target,apiURL);
+        patientJSON = PatientHelper.getPatient(sc,target,patientId);
         HashMap<String,Object> patientMap = JsonHashMapHelper.jsonToHashMap(patientJSON);
         return new Viewable("/patient.ftl", patientMap);
     }
@@ -166,5 +162,23 @@ public String uploadHTTP(
         model.put("patientId",patientId);
         model.put("measures",measureListMap);
         return new Viewable("/patientmeasures.ftl",model);
+    }
+
+    @POST
+    @Path("{patientId}/measures/{measureId}/match")
+    @Produces("text/html")
+    public Viewable matchPatientMeasure(@PathParam("patientId") String patientId,@PathParam("measureId") String measureId){
+        ServletContext sc = request.getSession().getServletContext();
+        HttpHost target = new HttpHost(((String)sc.getAttribute(POPHEALTH_IP_ADDRESS)),new Integer((String)sc.getAttribute(POPHEALTH_PORT)).intValue(), "http");
+
+        String patienJSON = PatientHelper.getPatient(sc,target,patientId);
+        HashMap <String,Object> patient = JsonHashMapHelper.jsonToHashMap(patienJSON);
+
+        String measureJSON = MeasureHelper.getMeasure(sc, target, measureId);
+        HashMap <String,Object> measure = JsonHashMapHelper.jsonToHashMap(measureJSON);
+
+        HashMap model = PatientMeasureMatchHelper.match(patient,measure);
+
+        return new Viewable("/patientmeasuresmatch.ftl",model);
     }
 }

@@ -19,7 +19,7 @@
             <TD><input type="hidden" value="${measure.hqmf_id}"/></TD>
             <TD>${measure.cms_id}</TD>
             <TD>${measure.name}</TD>
-            <TD><a href="${patientId}/measures/${measure.hqmf_id}/run}"> Execute</a> </TD>
+            <TD><a href="${patientId}/measures/${measure.hqmf_id}/exec}"> Execute</a> </TD>
         </TR>
     </#list>
     </table>

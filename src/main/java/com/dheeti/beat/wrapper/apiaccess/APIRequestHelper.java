@@ -1,4 +1,4 @@
-package com.dheeti.beat.wrapper.helper;
+package com.dheeti.beat.wrapper.apiaccess;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
