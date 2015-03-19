@@ -26,7 +26,6 @@ public class ExecTaskServlet extends HttpServlet {
         String[] cmd = { "/bin/sh", "-c", "cd /home/jayram/beat/popHealth; rake bundle:import[/home/jayram/beat/testdata/bundle_0314.zip] RAILS_ENV=development" };
 
         Process process = runtime.exec(cmd);
-
         try {
 
             DataInputStream in = new DataInputStream(process.getInputStream());
@@ -37,6 +36,9 @@ public class ExecTaskServlet extends HttpServlet {
                 msg = msg + "\n" + line;
             }
             out.println(msg);
+            in.close();
+            out.close();
+            process.destroy();
         }
         catch (Exception e) {
             out.println("Problem with command: " +

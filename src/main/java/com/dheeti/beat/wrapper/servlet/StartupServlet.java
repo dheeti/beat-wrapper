@@ -33,7 +33,7 @@ public class StartupServlet extends HttpServlet implements StringConstants{
     public void init()throws ServletException {
         ServletContext sc = getServletContext();
         ConfigurationDAO configurationDAO = new ConfigurationDAO();
-        List<Configuration> configurationList = configurationDAO.getConfigurations();
+        List<Configuration> configurationList = configurationDAO.getConfigurations(CONF_TYPE_SYSTEM);
         for(Configuration conf : configurationList){
             sc.setAttribute(conf.getKey(),conf.getValue());
         }

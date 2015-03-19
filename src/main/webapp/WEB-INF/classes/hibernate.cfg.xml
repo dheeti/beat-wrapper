@@ -48,6 +48,8 @@
 
         <!-- Names the annotated entity class -->
         <mapping class="com.dheeti.beat.wrapper.persistence.Configuration"/>
+        <mapping class="com.dheeti.beat.wrapper.persistence.Task"/>
+        <mapping class="com.dheeti.beat.wrapper.persistence.RakeTask"/>
 
     </session-factory>
 

@@ -1,8 +1,8 @@
 package com.dheeti.beat.wrapper.persistence.DAO;
 
-import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.persistence.Configuration;
 import com.dheeti.beat.wrapper.persistence.HibernateUtil;
+import com.dheeti.beat.wrapper.persistence.Task;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
@@ -10,22 +10,21 @@ import org.hibernate.criterion.Restrictions;
 import java.util.List;
 
 /**
- * Created by jayram on 18/3/15.
+ * Created by jayram on 19/3/15.
  */
-public class ConfigurationDAO implements StringConstants{
-    public List<Configuration> getConfigurations(String type) {
+public class TaskDAO {
+    public List<Task> getTaskConfigurations() {
         Session session = HibernateUtil.getInstance().getSession();
-        List<Configuration> configurationList = session.createCriteria(Configuration.class)
-                .add(Restrictions.eq("type",type)).list();
-        return configurationList;
+        List<Task> taskList = session.createCriteria(Task.class).list();
+        return taskList;
     }
 
-    public boolean save(List<Configuration> updatedList) {
+    public boolean save(List<Task> updatedList) {
         boolean success = false;
         Session session = HibernateUtil.getInstance().getSession();
         Transaction tx = session.beginTransaction();
-        for(Configuration conf : updatedList) {
-            session.saveOrUpdate(conf);
+        for(Task task : updatedList) {
+            session.saveOrUpdate(task);
         }
         session.flush();
         tx.commit();

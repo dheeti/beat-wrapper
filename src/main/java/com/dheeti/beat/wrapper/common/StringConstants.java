@@ -16,4 +16,9 @@ public interface StringConstants {
     public static final String POPHEALTH_API_GET_MEASURE = "/api/measures/";
     public static final String POPHEALTH_API_GET_PATIENT = "/api/patients/";
     public static final String LOCAL_POPHEALTH_DIR = "/home/jayram/beat/popHealth";
+
+    public static final String CONF_TYPE_TASK = "TASK";
+    public static final String CONF_TYPE_SYSTEM = "SYSTEM";
+
+    public static final String TASK_TYPE_RAKETASK = "RAKETASK";
 }

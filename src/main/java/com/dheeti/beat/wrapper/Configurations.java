@@ -1,5 +1,6 @@
 package com.dheeti.beat.wrapper;
 
+import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.helper.ReloadServletContextHelper;
 import com.dheeti.beat.wrapper.persistence.Configuration;
 import com.dheeti.beat.wrapper.persistence.DAO.ConfigurationDAO;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by jayram on 18/3/15.
  */
 @Path("configurations")
-public class Configurations {
+public class Configurations implements StringConstants{
     @Context
     private HttpServletRequest request;
 
@@ -26,7 +27,7 @@ public class Configurations {
     public Viewable getConfigurations() {
         List<Configuration> model = new ArrayList<Configuration>();
         ConfigurationDAO configurationDAO = new ConfigurationDAO();
-        List<Configuration> configurationList = configurationDAO.getConfigurations();
+        List<Configuration> configurationList = configurationDAO.getConfigurations(CONF_TYPE_SYSTEM);
         for(Configuration conf : configurationList){
             model.add(conf);
         }
@@ -44,6 +45,7 @@ public class Configurations {
         int index = 0;
         for(String id : idList){
             Configuration conf = new Configuration(new Integer(id),configKeyList.get(index),configValueList.get(index));
+            conf.setType(CONF_TYPE_SYSTEM);
             updatedList.add(conf);
             index++;
         }
@@ -55,5 +57,17 @@ public class Configurations {
         return message;
     }
 
+    @GET
+    @Path("/task")
+    @Produces("text/html")
+    public Viewable getTaskConfigurations() {
+        List<Configuration> model = new ArrayList<Configuration>();
+        ConfigurationDAO configurationDAO = new ConfigurationDAO();
+        List<Configuration> configurationList = configurationDAO.getConfigurations(CONF_TYPE_TASK);
+        for(Configuration conf : configurationList){
+            model.add(conf);
+        }
+        return new Viewable("/systemconfig.ftl",model);
+    }
 
 }

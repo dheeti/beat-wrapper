@@ -42,6 +42,13 @@ public class Configuration {
         this.value = value;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
@@ -50,4 +57,6 @@ public class Configuration {
     String key;
     @Column(name="confvalue")
     String value;
+    @Column(name="conftype")
+    String type;
 }
