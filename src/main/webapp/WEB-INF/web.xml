@@ -33,10 +33,6 @@
         <servlet-class>com.dheeti.beat.wrapper.servlet.StartupServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <servlet>
-        <servlet-name>ExecTaskServlet</servlet-name>
-        <servlet-class>com.dheeti.beat.wrapper.servlet.ExecTaskServlet</servlet-class>
-    </servlet>
     <servlet-mapping>
         <servlet-name>SignIn</servlet-name>
         <url-pattern>/beat/SignIn</url-pattern>
@@ -44,10 +40,6 @@
     <servlet-mapping>
         <servlet-name>StartupServlet</servlet-name>
         <url-pattern>/beat/Startup</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ExecTaskServlet</servlet-name>
-        <url-pattern>/beat/ExecTask</url-pattern>
     </servlet-mapping>
     <filter-mapping>
         <filter-name>JerseyAPI</filter-name>
