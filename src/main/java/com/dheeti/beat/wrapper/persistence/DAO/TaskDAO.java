@@ -31,4 +31,10 @@ public class TaskDAO {
         success = true;
         return success;
     }
+
+    public Task getTaskConfiguration(Integer taskId) {
+        Session session = HibernateUtil.getInstance().getSession();
+        Task task = (Task)session.createCriteria(Task.class).add(Restrictions.eq("taskId",taskId)).list().get(0);
+        return task;
+    }
 }

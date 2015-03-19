@@ -1,63 +1,40 @@
-package com.dheeti.beat.wrapper.servlet;
+package com.dheeti.beat.wrapper.helper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
 
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.DataInputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
- * Created by jayram on 17/3/15.
+ * Created by jayram on 19/3/15.
  */
-public class ExecTaskServlet extends HttpServlet implements StringConstants{
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        response.setContentType("text/plain");
-        PrintWriter out = response.getWriter();
-
-        HashMap<String,String> params = extractParameters(request,request.getParameterNames());
+public class TaskHelper implements StringConstants{
+    public  String execute(HttpServletRequest request, HashMap<String,String> params){
+        String msg = null;
+        //HashMap<String,String> params = extractParameters(request,request.getParameterNames());
         String taskCommand = this.createTaskCommand(params);
         String shellString = "/bin/sh";
         String shellParam = "-c";
         String[] cmd = {shellString,shellParam,taskCommand};
-
         Runtime runtime = Runtime.getRuntime();
-        //String[] cmd = { "/bin/sh", "-c", "cd /home/jayram/beat/popHealth; rake bundle:import[/home/jayram/beat/testdata/bundle_0314.zip] RAILS_ENV=development" };
-
-        Process process = runtime.exec(cmd);
         try {
-
+            Process process = runtime.exec(cmd);
             DataInputStream in = new DataInputStream(process.getInputStream());
-
-            String msg = "Task Executed Successfully with following log \n";
+            msg = "Task Executed Successfully with following log \n";
             String line;
             while ((line = in.readLine()) != null) {
                 msg = msg + "\n" + line;
             }
-            //out.println(msg);
             in.close();
-            out.close();
             process.destroy();
-            //request.setAttribute("Log", msg);
-            RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("tasks");
-            dispatcher.forward(request,response);
         }
         catch (Exception e) {
-            out.println("Problem with command: " +
-                    e.getStackTrace().toString());
+            e.printStackTrace();
         }
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        doPost(request,response);
+        return msg;
     }
 
     private String createTaskCommand(HashMap<String, String> params) {

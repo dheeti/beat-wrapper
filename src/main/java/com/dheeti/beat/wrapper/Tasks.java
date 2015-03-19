@@ -2,6 +2,7 @@ package com.dheeti.beat.wrapper;
 
 import com.dheeti.beat.wrapper.common.StringConstants;
 import com.dheeti.beat.wrapper.helper.ReloadServletContextHelper;
+import com.dheeti.beat.wrapper.helper.TaskHelper;
 import com.dheeti.beat.wrapper.persistence.Configuration;
 import com.dheeti.beat.wrapper.persistence.DAO.ConfigurationDAO;
 import com.dheeti.beat.wrapper.persistence.DAO.TaskDAO;
@@ -9,10 +10,13 @@ import com.dheeti.beat.wrapper.persistence.RakeTask;
 import com.dheeti.beat.wrapper.persistence.Task;
 import org.glassfish.jersey.server.mvc.Viewable;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MultivaluedMap;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Path("tasks")
@@ -65,6 +69,29 @@ public class Tasks implements StringConstants {
         boolean result = taskDAO.save(updatedList);
         String message = "Task Configuration Changes Saved Successfully";
         return message;
+    }
+    @GET
+    @Path("/run/{taskid}")
+    @Produces("text/html")
+    public Viewable runTask(@PathParam("taskid") String taskId) {
+        ServletContext sc = request.getSession().getServletContext();
+        TaskDAO taskDAO = new TaskDAO();
+        Task task = taskDAO.getTaskConfiguration(new Integer(taskId));
+        return new Viewable("/runtask.ftl", task);
+    }
+
+    @POST
+    @Path("/exec")
+    @Produces("text/html")
+    public Viewable execTask(MultivaluedMap<String, String> params1){
+        ServletContext sc = request.getSession().getServletContext();
+        TaskHelper inst = new TaskHelper();
+        HashMap<String,String> params = new HashMap<String,String>();
+        for (String key : params1.keySet()) {
+            params.put(key,params1.getFirst(key));
+        }
+        String msg = inst.execute(request,params);
+        return new Viewable("/tasklog.ftl", msg);
     }
 
 }
