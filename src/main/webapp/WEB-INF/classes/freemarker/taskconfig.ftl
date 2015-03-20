@@ -37,7 +37,7 @@
             </TD>
             <TD><textarea rows="4" cols="25" name="description">${task.description}</textarea>
             </TD>
-            <TD><a href="/tasks/run/${task.taskId}">Run</a>
+            <TD><a href="tasks/run/${task.taskId}">Run</a>
             </TD>
         </TR>
     </#list>

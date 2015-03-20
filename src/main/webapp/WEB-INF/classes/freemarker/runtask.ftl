@@ -3,7 +3,7 @@
     <title>Task Configurations</title>
 </head>
 <body>
-<form method="POST" action="/tasks/exec">
+<form method="POST" action="../../tasks/exec">
     <input type="hidden" name="taskid" value="${model.taskId}">
 
     <p>Name :<input type="text" name="taskname" value="${model.taskname}"></p>
