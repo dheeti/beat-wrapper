@@ -17,8 +17,8 @@ public class TaskHelper implements StringConstants{
     public  String execute(HttpServletRequest request, HashMap<String,String> params){
         String msg = null;
         String taskCommand = this.createTaskCommand(params);
-        String shellString = "/bin/bash";
-        String shellParam = "-c";
+        String shellString = SHELL_STRING;
+        String shellParam = SHELL_PARAM;
         String[] cmd = {shellString,shellParam,taskCommand};
         Runtime runtime = Runtime.getRuntime();
         ProcessBuilder probuilder = new ProcessBuilder(cmd);
@@ -26,7 +26,7 @@ public class TaskHelper implements StringConstants{
         Map<String,String> env = probuilder.environment();
         String path = env.get("PATH")+":";
 
-        env.put("PATH",path+"/usr/local/rvm/gems/ruby-2.1.2/bin:/usr/local/rvm/rubies/ruby-2.1.2/bin");
+        env.put("PATH",path+RAKE_DIR+":"+RAILS_DIR);///usr/local/rvm/gems/ruby-2.1.2/bin:/usr/local/rvm/rubies/ruby-2.1.2/bin");
 
         try {
             Process process = probuilder.start();

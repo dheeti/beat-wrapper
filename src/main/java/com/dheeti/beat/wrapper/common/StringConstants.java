@@ -21,4 +21,8 @@ public interface StringConstants {
     public static final String CONF_TYPE_SYSTEM = "SYSTEM";
 
     public static final String TASK_TYPE_RAKETASK = "RAKETASK";
+    public static final String RAILS_DIR = "RAILS_DIR";
+    public static final String RAKE_DIR = "RAKE_DIR";
+    public static final String SHELL_STRING = "/bin/bash";
+    public static final String SHELL_PARAM = "-c";
 }
