@@ -22,7 +22,7 @@ public class TaskHelper implements StringConstants{
         String[] cmd = {shellString,shellParam,taskCommand};
         Runtime runtime = Runtime.getRuntime();
         ProcessBuilder probuilder = new ProcessBuilder(cmd);
-        probuilder.directory(new File(LOCAL_POPHEALTH_DIR));
+        probuilder.directory(new File((String)request.getSession().getServletContext().getAttribute(LOCAL_POPHEALTH_DIR)));
         Map<String,String> env = probuilder.environment();
         String path = env.get("PATH")+":";
 

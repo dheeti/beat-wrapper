@@ -15,7 +15,7 @@ public interface StringConstants {
     public static final String QRDA_BASE_DIR = "QRDA_BASE_DIR";
     public static final String POPHEALTH_API_GET_MEASURE = "/api/measures/";
     public static final String POPHEALTH_API_GET_PATIENT = "/api/patients/";
-    public static final String LOCAL_POPHEALTH_DIR = "/home/jayram/beat/popHealth";
+    public static final String LOCAL_POPHEALTH_DIR = "LOCAL_POPHEALTH_DIR";
 
     public static final String CONF_TYPE_TASK = "TASK";
     public static final String CONF_TYPE_SYSTEM = "SYSTEM";
@@ -23,6 +23,6 @@ public interface StringConstants {
     public static final String TASK_TYPE_RAKETASK = "RAKETASK";
     public static final String RAILS_DIR = "RAILS_DIR";
     public static final String RAKE_DIR = "RAKE_DIR";
-    public static final String SHELL_STRING = "/bin/bash";
+    public static final String SHELL_STRING = "/bin/sh";
     public static final String SHELL_PARAM = "-c";
 }
