@@ -24,7 +24,7 @@ public class SignInServlet extends javax.servlet.http.HttpServlet implements Str
         System.out.println("************Matched:"+matched);
         request.getSession().setAttribute("userName",(String)request.getParameter("userName"));
         request.getSession().setAttribute("password",(String)request.getParameter("password"));
-        response.sendRedirect("/dashboard.jsp");
+        //response.sendRedirect("index.ftl");
 
     }
 
